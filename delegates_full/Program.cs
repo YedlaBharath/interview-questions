@@ -41,7 +41,13 @@ namespace delegates_full
 
         static void Main(string[] args) // this is the first thread that will start in the program.
         {
-            //
+            // IEnumerable and IEnumerator 
+            // Both are used to loop through the collections.
+            Iemunc objenum = new Iemunc();
+            objenum.Enum();
+
+            // AutoResetEvent and ManualResetEvent
+            // Both are same only one Set is Enough to Release the WaitOne Thread in ManualResetEvent but in AutoResetEvent as many WaitOne are there you need Set as many.
             AutoRest autoobj = new AutoRest();
             autoobj.mainthread();
 
@@ -92,14 +98,13 @@ namespace delegates_full
     class Immutable
     {
         // immutables are once loaded they cannot be changed internally or externally.
-        private readonly string name;// step 2: make the varible readonly
+        private readonly string name;// step 2: make the varible readonly mean we can get the value at the runtime but we cannot set the value to the field.
         private readonly string surname;
         public Immutable(string names, string surnames)// step 1: use constructors to initilize varible.
         {
             name = names;
             surname = surnames;
         }
-
         public string Name
         {
             get { return name; }// step 3: only getters and remove setters, so we cannot set values to the variables.
@@ -205,6 +210,63 @@ namespace delegates_full
         // When we use a ManualResetEvent how waitone you have if you have one Set it will Release all the WaitOne Threads to run.
         // Example AutoResetEvent is like a Turn Style Gate Which only one person can enter at a time.
         // But ManualResetEvent is like a noramel gate once it is opened every one can rush into it.
+
+    }
+    class Iemunc
+    {
+        public void Enum()
+        {
+            List<int> list = new List<int>();
+            list.Add(1);
+            list.Add(2);
+            list.Add(3);
+            list.Add(4);
+            list.Add(5);
+            list.Add(6);
+            IEnumerable<int> ienum = (IEnumerable<int>)list; // IEnumerable gives you iteration but it does'nt remember the state or row of the collection it internally uses foreach loop.
+            Enum1(ienum);
+            //IEnumerator<int> ienum = list.GetEnumerator(); // IEnumerator gives you iteration and it knows at which row or state it is currently looping.
+            //Enum1(ienum);
+            Console.ReadLine();
+            
+        }
+        public void Enum1(IEnumerable<int> o)
+        {
+            foreach (int i in o)
+            {
+                if (i >= 3)
+                {
+                    Enum2(o);
+                }
+                Console.WriteLine(i);
+            }
+
+        }
+        public void Enum2(IEnumerable<int> o)
+        { 
+            foreach (int j in o)
+            {
+                Console.WriteLine(j);
+            }
+        }
+        /*public void Enum1(IEnumerator<int> o)
+        {
+            while(o.MoveNext())
+            {
+                Console.WriteLine(o.Current.ToString());
+                if (Convert.ToInt32(o.Current) > 3)
+                {
+                    Enum2(o);
+                }
+            }
+        }
+        public void Enum2(IEnumerator<int> o)
+        {
+            while(o.MoveNext())
+            {
+                Console.WriteLine(o.Current.ToString());
+            }           
+        }*/
 
     }
 }
